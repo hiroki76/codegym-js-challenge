@@ -6,6 +6,7 @@
   </head>
   <body>
     <table>
+      <div id="test"></div>
       <tr>
         <td>login</td>
         <td><input type="text" id="loginName" placeholder="name" /></td>
@@ -30,7 +31,19 @@
       </tr>
       <tr>
         <td>usersGet</td>
+        <td><input type="text" id="usersGet" placeholder="q" /></td>
+        <td><input type="number" id="perPageGet" placeholder="perPage" /></td>
+        <td><input type="number" id="pageGet" placeholder="page" /></td>
         <td><button id="usersGetSubmit">送信</button></td>
+      </tr>
+      <tr>
+        <td>usersDelete</td>
+        <td><button id="usersDeleteSubmit">送信</button></td>
+      </tr>
+      <tr>
+        <td>usersEdit</td>
+        <td><input type="text" id="usersEdit" placeholder="bio" /></td>
+        <td><button id="usersEditSubmit">送信</button></td>
       </tr>
       <tr>
         <td>threadsGet</td>
