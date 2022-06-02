@@ -1,7 +1,13 @@
 'use strict'
+const host = 'http://18.183.170.154:20780'
+const registerHost = host + '/register'
+const loginHost = host + '/login'
+const logoutHost = host + '/logout'
+const usersHost = host + '/users?'
+
 const messageFunc = (message) => {
     const elementMessage = document.getElementById("message")
-    elementMessage.innerHTML = 'メッセージ [ ' + message + ' ]'
+    elementMessage.innerHTML = 'メッセージ [ ' + message + ']'
 }
 
 const getToken = () => {
@@ -10,7 +16,7 @@ const getToken = () => {
     return param
 }
 
-const getFetch = async (host, params) => {
+const executeApi = async (host, params) => {
     await fetch(host, params)
     .then((response) => {
         if (!response.ok) {
@@ -19,8 +25,8 @@ const getFetch = async (host, params) => {
         return response.json()
     })
     .then(json => {
-        if (json["massage"]) {
-        messageFunc(json["massage"]) 
+        if (json["message"]) {
+            messageFunc(json["message"]) 
         }
         if (json["token"]) {
             localStorage.setItem("token", json["token"]) 
@@ -31,7 +37,7 @@ const getFetch = async (host, params) => {
     })
 }
 
-const registerUser = async (host, name, bio, password) => {
+const registerUser = async (name, bio, password) => {
     const bodyParams = {
         'name': name,
         'bio': bio,
@@ -44,10 +50,10 @@ const registerUser = async (host, name, bio, password) => {
         },
         body: JSON.stringify(bodyParams)
     }
-    await getFetch(host, params)
+    await executeApi(registerHost, params)
 }
 
-const loginUser = async (host, name, password) => {
+const loginUser = async (name, password) => {
     const bodyParams = {
         'name': name,
         'password': password
@@ -59,10 +65,10 @@ const loginUser = async (host, name, password) => {
         },
         body: JSON.stringify(bodyParams)
     }
-    getFetch(host, params)
+    executeApi(loginHost, params)
 }
 
-const logoutUser = async (host) => {
+const logoutUser = async () => {
     const token = getToken()
     const params = {
         method: 'post',
@@ -71,12 +77,12 @@ const logoutUser = async (host) => {
             'Authorization': token
         }
     }
-    await getFetch(host, params)
+    await executeApi(logoutHost, params)
 }
 
-const getUserId = async (host, id) => {
+const getUserId = async (id) => {
     const token = getToken()
-    const url = new URL(host)
+    const url = new URL(usersHost)
     const queryParam = new URLSearchParams({
         'id': id
     })
@@ -88,12 +94,12 @@ const getUserId = async (host, id) => {
             'Authorization': token
         }
     }
-    await getFetch(request, params)
+    await executeApi(request, params)
 }
 
-const getUsers = async (host, perPage, page, q) => {
+const getUsers = async (perPage, page, q) => {
     const token = getToken()
-    const url = new URL(host)
+    const url = new URL(usersHost)
     const queryParams = new URLSearchParams({
         'per_page': perPage,
         'page': page,
@@ -108,10 +114,10 @@ const getUsers = async (host, perPage, page, q) => {
             'Authorization': token
         }
     }
-    await getFetch(request, params)
+    await executeApi(request, params)
 }
 
-const deleteUser = async (host) => {
+const deleteUser = async () => {
     const token = getToken()
     const params = {
         method: 'delete',
@@ -120,10 +126,10 @@ const deleteUser = async (host) => {
             'Authorization': token
         }
     }
-    await getFetch(host, params)
+    await executeApi(usersHost, params)
 }
 
-const editBioUser = async (host, bio) => {
+const editBioUser = async (bio) => {
     const token = getToken()
     const bodyParam = {
         'bio': bio
@@ -136,5 +142,5 @@ const editBioUser = async (host, bio) => {
         },
         body: JSON.stringify(bodyParam)
     }
-    await getFetch(host, params)
+    await executeApi(usersHost, params)
 }
