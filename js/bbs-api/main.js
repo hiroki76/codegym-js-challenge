@@ -43,3 +43,17 @@ usersEditSubmit.addEventListener('click', () => {
     const bio = document.getElementById("usersEdit").value
     editBioUser(bio)
 })
+
+const messageFunc = (json) => {
+    const elementMessage = document.getElementById("messageTitle")
+    elementMessage.innerText = 'メッセージ'
+    const elementMessageContent = document.getElementById("messageContent")
+    elementMessageContent.innerHTML = json["message"]
+}
+
+const addContent = (json) => {
+    const elementContentTitle = document.getElementById("contentTitle")
+    elementContentTitle.innerText = '取得内容'
+    const elementContent = document.getElementById("content")
+    elementContent.innerText = JSON.stringify(json)
+}

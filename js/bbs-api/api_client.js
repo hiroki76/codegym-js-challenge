@@ -1,14 +1,9 @@
 'use strict'
-const host = 'http://18.183.170.154:20780'
+const host = 'http://54.199.234.142:20780'
 const registerHost = host + '/register'
 const loginHost = host + '/login'
 const logoutHost = host + '/logout'
 const usersHost = host + '/users?'
-
-const messageFunc = (message) => {
-    const elementMessage = document.getElementById("message")
-    elementMessage.innerHTML = 'メッセージ [ ' + message + ']'
-}
 
 const getToken = () => {
     const token = localStorage.getItem("token")
@@ -25,8 +20,13 @@ const executeApi = async (host, params) => {
         return response.json()
     })
     .then(json => {
+        if (json["data"]) {
+            addContent(json)
+            console.log(JSON.stringify(json))
+        }
         if (json["message"]) {
-            messageFunc(json["message"]) 
+            messageFunc(json)
+            console.log(json)
         }
         if (json["token"]) {
             localStorage.setItem("token", json["token"]) 
