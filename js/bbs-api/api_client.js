@@ -4,6 +4,7 @@ const registerHost = host + '/register'
 const loginHost = host + '/login'
 const logoutHost = host + '/logout'
 const usersHost = host + '/users'
+const threadsHost = host + '/threads'
 
 const getToken = () => {
     const token = localStorage.getItem("token")
@@ -151,4 +152,75 @@ const editBioUser = async (bio) => {
         body: JSON.stringify(bodyParam)
     }
     await executeApi(usersHost, params, btn)
+}
+
+const newThread = async (title) => {
+    const btn = 'threadsPostSubmit'
+    const token = getToken()
+    const bodyParams = {
+        'title': title
+    }
+    const params = {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        },
+        body: JSON.stringify(bodyParams)
+    }
+    executeApi(threadsHost, params, btn)
+}
+
+const getThreads = async (perPage, page, q) => {
+    const btn = 'threadsGetSubmit'
+    const token = getToken()
+    const url = new URL(threadsHost)
+    const queryParams = new URLSearchParams({
+        'per_page': perPage,
+        'page': page,
+        'q': q
+    })
+    const request = new Request(url + '?' + queryParams)
+    const params = {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }
+    await executeApi(request, params, btn)
+}
+
+const getThread = async (id) => {
+    const btn = 'threadGetSubmit'
+    const token = getToken()
+    const url = new URL(threadsHost)
+    const request = new Request(url + '/' + id)
+    const params = {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }
+    await executeApi(request, params, btn)
+}
+
+const editThread = async (id, title) => {
+    const btn = 'threadEditSubmit'
+    const token = getToken()
+    const url = new URL(threadsHost)
+    const request = new Request(url + '/' + id)
+    const bodyParam = {
+        'title': title
+    }
+    const params = {
+        method: 'patch',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        },
+        body: JSON.stringify(bodyParam)
+    }
+    await executeApi(request, params, btn)
 }

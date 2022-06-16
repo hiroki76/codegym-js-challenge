@@ -57,6 +57,37 @@ usersEditSubmit.addEventListener('click', () => {
     editBioUser(bio)
 })
 
+const threadsPostSubmit = document.getElementById("threadsPostSubmit")
+threadsPostSubmit.addEventListener('click', () => {
+    const title = document.getElementById("threadsPostTitle").value
+    setElementReset()
+    newThread(title)
+})
+
+const threadsGetSubmit = document.getElementById("threadsGetSubmit")
+threadsGetSubmit.addEventListener('click', () => {
+    const perPage = document.getElementById("threadsGetPerPage").value
+    const page = document.getElementById("threadsGetPage").value
+    const q = document.getElementById("threadsGetQ").value
+    setElementReset()
+    getThreads(perPage, page, q)
+})
+
+const threadGetSubmit = document.getElementById("threadGetSubmit")
+threadGetSubmit.addEventListener('click', () => {
+    const id = document.getElementById("threadGet").value
+    setElementReset()
+    getThread(id)
+})
+
+const threadEditSubmit = document.getElementById("threadEditSubmit")
+threadEditSubmit.addEventListener('click', () => {
+    const id = document.getElementById("threadEditId").value
+    const title = document.getElementById("threadEdit").value
+    setElementReset()
+    editThread(id, title)
+})
+
 const setErrorMessage = (message) => {
     elementMessage.innerHTML = 'メッセージ'
     elementErrorMessage.innerHTML = message
@@ -114,6 +145,42 @@ const setMessage = (data, btn) => {
         elementMessage.innerHTML = 'メッセージ'
         if (!data["message"]) {
             elementMessageContent.innerHTML = 'bioを書き換えました。'
+        }
+        if (data["message"] === 'Unauthenticated.') {
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+    if (btn === 'threadsPostSubmit') {
+        elementMessage.innerHTML = 'メッセージ'
+        if (!data["message"]) {
+            elementMessageContent.innerHTML = 'スレッドを作成しました。'
+        }
+        if (data["message"] === 'Unauthenticated.') {
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+    if (btn === 'threadGetSubmit') {
+        elementMessage.innerHTML = 'メッセージ'
+        if (!data["message"]) {
+            elementMessageContent.innerHTML = 'スレッドを取得しました。'
+        }
+        if (data["message"] === 'Unauthenticated.') {
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+    if (btn === 'threadEditSubmit') {
+        elementMessage.innerHTML = 'メッセージ'
+        if (!data["message"]) {
+            elementMessageContent.innerHTML = 'スレッドを編集しました。'
+        }
+        if (data["message"] === 'Unauthenticated.') {
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+    if (btn === 'threadsGetSubmit') {
+        elementMessage.innerHTML = 'メッセージ'
+        if (!data["message"]) {
+            elementMessageContent.innerHTML = 'スレッド一覧を取得しました。'
         }
         if (data["message"] === 'Unauthenticated.') {
             elementMessageContent.innerHTML = 'ログインしてください。'
