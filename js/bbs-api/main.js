@@ -1,6 +1,135 @@
-'use strict';
+'use strict'
+const elementMessage = document.getElementById("messageTitle")
+const elementMessageContent = document.getElementById("messageContent")
+const elementErrorMessage = document.getElementById("errorMessage")
+const elementContentTitle = document.getElementById("contentTitle")
+const elementContent = document.getElementById("content")
 
-const p = console.log;
-const host = 'http://localhost'; //ローカルで掲示板を動かす場合の設定
+const registerSubmit = document.getElementById("registerSubmit")
+registerSubmit.addEventListener('click', () => {
+    const name = document.getElementById("registerName").value
+    const bio = document.getElementById("registerBio").value
+    const password = document.getElementById("registerPassword").value
+    setElementReset()
+    registerUser(name, bio, password)
+})
 
-//以下にコードを書きましょう。
+const loginSubmit = document.getElementById("loginSubmit")
+loginSubmit.addEventListener('click', () => {
+    const name = document.getElementById("loginName").value
+    const password = document.getElementById("loginPassword").value
+    setElementReset()
+    loginUser(name, password)
+})
+
+const logoutSubmit = document.getElementById("logoutSubmit")
+logoutSubmit.addEventListener('click', () => {
+    setElementReset()
+    logoutUser()
+})
+
+const usersIdGetSubmit = document.getElementById("usersIdGetSubmit")
+usersIdGetSubmit.addEventListener('click', () => {
+    const id = document.getElementById("usersIdGetId").value
+    setElementReset()
+    getUser(id)
+})
+
+const usersGetSubmit = document.getElementById("usersGetSubmit")
+usersGetSubmit.addEventListener('click', () => {
+    const q = document.getElementById("usersGet").value
+    const perPage = document.getElementById("perPageGet").value
+    const page = document.getElementById("pageGet").value
+    setElementReset()
+    getUsers(perPage, page, q)
+})
+
+const usersDeleteSubmit = document.getElementById("usersDeleteSubmit")
+usersDeleteSubmit.addEventListener('click', () => {
+    setElementReset()
+    deleteUser()
+})
+
+const usersEditSubmit = document.getElementById("usersEditSubmit")
+usersEditSubmit.addEventListener('click', () => {
+    const bio = document.getElementById("usersEdit").value
+    setElementReset()
+    editBioUser(bio)
+})
+
+const setErrorMessage = (message) => {
+    elementMessage.innerHTML = 'メッセージ'
+    elementErrorMessage.innerHTML = message
+}
+
+const setMessage = (data, btn) => {
+    if (btn === 'registerSubmit') {
+        elementMessage.innerHTML = 'メッセージ'
+        elementMessageContent.innerHTML = '新規登録に成功しました。'
+        if (data["message"]) {
+            elementMessageContent.innerHTML = data["message"]
+        }
+    }
+    if (btn === 'loginSubmit') {
+        elementMessage.innerHTML = 'メッセージ'
+        elementMessageContent.innerHTML = 'ログインに成功しました。'
+        if (data["message"]) {
+            elementMessageContent.innerHTML = data["message"]
+        }
+    }
+    if (btn === 'logoutSubmit') {
+        elementMessage.innerHTML = 'メッセージ'
+        elementMessageContent.innerHTML = 'ログアウトに成功しました。'
+        if (data["message"]) {
+            elementMessageContent.innerHTML = data["message"]
+        }
+        if (data["message"] === 'Unauthenticated.') {
+            elementMessage.innerHTML = 'メッセージ'
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+    if (btn === 'usersIdGetSubmit') {
+        if (!data["data"] && data["message"] === 'Unauthenticated.') {
+            elementMessage.innerHTML = 'メッセージ'
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+    if (btn === 'usersGetSubmit') {
+        if (!data["data"] && data["message"] === 'Unauthenticated.') {
+            elementMessage.innerHTML = 'メッセージ'
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+    if (btn === 'usersDeleteSubmit') {
+        if (data["message"]) {
+            elementMessage.innerHTML = 'メッセージ'
+            elementMessageContent.innerHTML = data["message"]
+        }
+        if (data["message"] === 'Unauthenticated.') {
+            elementMessage.innerHTML = 'メッセージ'
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+    if (btn === 'usersEditSubmit') {
+        elementMessage.innerHTML = 'メッセージ'
+        if (!data["message"]) {
+            elementMessageContent.innerHTML = 'bioを書き換えました。'
+        }
+        if (data["message"] === 'Unauthenticated.') {
+            elementMessageContent.innerHTML = 'ログインしてください。'
+        }
+    }
+}
+
+const setContent = (data) => {
+    elementContentTitle.innerHTML = '取得内容'
+    elementContent.innerHTML = data
+}
+
+const setElementReset = () => {
+    elementMessage.innerHTML = ''
+    elementMessageContent.innerHTML = ''
+    elementErrorMessage.innerHTML = ''
+    elementContentTitle.innerHTML = ''
+    elementContent.innerHTML = ''
+}

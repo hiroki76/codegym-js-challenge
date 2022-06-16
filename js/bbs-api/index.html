@@ -30,7 +30,19 @@
       </tr>
       <tr>
         <td>usersGet</td>
+        <td><input type="text" id="usersGet" placeholder="q" /></td>
+        <td><input type="number" id="perPageGet" placeholder="perPage" /></td>
+        <td><input type="number" id="pageGet" placeholder="page" /></td>
         <td><button id="usersGetSubmit">送信</button></td>
+      </tr>
+      <tr>
+        <td>usersDelete</td>
+        <td><button id="usersDeleteSubmit">送信</button></td>
+      </tr>
+      <tr>
+        <td>usersEdit</td>
+        <td><input type="text" id="usersEdit" placeholder="bio" /></td>
+        <td><button id="usersEditSubmit">送信</button></td>
       </tr>
       <tr>
         <td>threadsGet</td>
@@ -65,6 +77,12 @@
       <!-- 提出時に上記のサンプルコードが残っている必要はありません。 -->
       <!-- 上記を参考に自分なりに掲示板を作成してください。 -->
     </table>
+    <h2 id="messageTitle"></h2>
+    <div id="errorMessage"></div>
+    <div id="messageContent"></div>
+    <h2 id="contentTitle"></h2>
+    <div id="content"></div>
+    <script src="api_client.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
