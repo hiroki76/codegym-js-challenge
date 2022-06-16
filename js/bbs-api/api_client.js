@@ -1,9 +1,9 @@
 'use strict'
-const host = 'http://54.199.234.142:20780'
+const host = 'http://52.198.64.33:20780'
 const registerHost = host + '/register'
 const loginHost = host + '/login'
 const logoutHost = host + '/logout'
-const usersHost = host + '/users?'
+const usersHost = host + '/users'
 
 const getToken = () => {
     const token = localStorage.getItem("token")
@@ -11,33 +11,39 @@ const getToken = () => {
     return param
 }
 
-const executeApi = async (host, params) => {
-    await fetch(host, params)
+const executeApi = async (request, params, btn) => {
+    await fetch(request, params)
     .then((response) => {
         if (!response.ok) {
             console.error('サーバーエラー')
+            setErrorMessage('サーバーエラー')
         }
         return response.json()
     })
-    .then(json => {
-        if (json["data"]) {
-            addContent(json)
-            console.log(JSON.stringify(json))
+    
+    .then(data => {
+        setMessage(data, btn)
+        if (!data["token"]) {
+            if (!data["status"]) {
+                if (!data["message"]) {
+                    setContent(JSON.stringify(data))
+                    console.log(data)
+                }
+            }
         }
-        if (json["message"]) {
-            messageFunc(json)
-            console.log(json)
-        }
-        if (json["token"]) {
-            localStorage.setItem("token", json["token"]) 
+        if (data["token"]) {
+            localStorage.setItem("token", data["token"]) 
         }
     })
     .catch(error => {
         console.error('通信に失敗しました', error)
+        setElementReset()
+        setErrorMessage('通信に失敗しました。')
     })
 }
 
 const registerUser = async (name, bio, password) => {
+    const btn = 'registerSubmit'
     const bodyParams = {
         'name': name,
         'bio': bio,
@@ -50,10 +56,11 @@ const registerUser = async (name, bio, password) => {
         },
         body: JSON.stringify(bodyParams)
     }
-    await executeApi(registerHost, params)
+    await executeApi(registerHost, params, btn)
 }
 
 const loginUser = async (name, password) => {
+    const btn = 'loginSubmit'
     const bodyParams = {
         'name': name,
         'password': password
@@ -65,10 +72,11 @@ const loginUser = async (name, password) => {
         },
         body: JSON.stringify(bodyParams)
     }
-    executeApi(loginHost, params)
+    executeApi(loginHost, params, btn)
 }
 
 const logoutUser = async () => {
+    const btn = 'logoutSubmit'
     const token = getToken()
     const params = {
         method: 'post',
@@ -77,16 +85,14 @@ const logoutUser = async () => {
             'Authorization': token
         }
     }
-    await executeApi(logoutHost, params)
+    await executeApi(logoutHost, params, btn)
 }
 
-const getUserId = async (id) => {
+const getUser = async (id) => {
+    const btn = 'usersIdGetSubmit'
     const token = getToken()
     const url = new URL(usersHost)
-    const queryParam = new URLSearchParams({
-        'id': id
-    })
-    const request = new Request(url + queryParam)
+    const request = new Request(url + '/' + id)
     const params = {
         method: 'get',
         headers: {
@@ -94,19 +100,19 @@ const getUserId = async (id) => {
             'Authorization': token
         }
     }
-    await executeApi(request, params)
+    await executeApi(request, params, btn)
 }
 
 const getUsers = async (perPage, page, q) => {
+    const btn = 'usersGetSubmit'
     const token = getToken()
     const url = new URL(usersHost)
     const queryParams = new URLSearchParams({
         'per_page': perPage,
         'page': page,
-        'name': q,
-        'bio': q
+        'q': q
     })
-    const request = new Request(url + queryParams)
+    const request = new Request(url + '?' + queryParams)
     const params = {
         method: 'get',
         headers: {
@@ -114,10 +120,11 @@ const getUsers = async (perPage, page, q) => {
             'Authorization': token
         }
     }
-    await executeApi(request, params)
+    await executeApi(request, params, btn)
 }
 
 const deleteUser = async () => {
+    const btn = 'usersDeleteSubmit'
     const token = getToken()
     const params = {
         method: 'delete',
@@ -126,10 +133,11 @@ const deleteUser = async () => {
             'Authorization': token
         }
     }
-    await executeApi(usersHost, params)
+    await executeApi(usersHost, params, btn)
 }
 
 const editBioUser = async (bio) => {
+    const btn = 'usersEditSubmit'
     const token = getToken()
     const bodyParam = {
         'bio': bio
@@ -142,5 +150,5 @@ const editBioUser = async (bio) => {
         },
         body: JSON.stringify(bodyParam)
     }
-    await executeApi(usersHost, params)
+    await executeApi(usersHost, params, btn)
 }
