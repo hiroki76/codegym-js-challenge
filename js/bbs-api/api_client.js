@@ -1,5 +1,5 @@
 'use strict'
-const host = 'http://52.198.64.33:20780'
+const host = 'http://35.72.4.134:20780'
 const registerHost = host + '/register'
 const loginHost = host + '/login'
 const logoutHost = host + '/logout'
@@ -12,7 +12,7 @@ const getToken = () => {
     return param
 }
 
-const executeApi = async (request, params, btn) => {
+const executeApi = async (request, params, pressedButtonId) => {
     await fetch(request, params)
     .then((response) => {
         if (!response.ok) {
@@ -23,7 +23,7 @@ const executeApi = async (request, params, btn) => {
     })
     
     .then(data => {
-        setMessage(data, btn)
+        setMessage(data, pressedButtonId)
         if (!data["token"]) {
             if (!data["status"]) {
                 if (!data["message"]) {
@@ -44,7 +44,7 @@ const executeApi = async (request, params, btn) => {
 }
 
 const registerUser = async (name, bio, password) => {
-    const btn = 'registerSubmit'
+    const pressedButtonId = 'registerSubmit'
     const bodyParams = {
         'name': name,
         'bio': bio,
@@ -57,11 +57,11 @@ const registerUser = async (name, bio, password) => {
         },
         body: JSON.stringify(bodyParams)
     }
-    await executeApi(registerHost, params, btn)
+    await executeApi(registerHost, params, pressedButtonId)
 }
 
 const loginUser = async (name, password) => {
-    const btn = 'loginSubmit'
+    const pressedButtonId = 'loginSubmit'
     const bodyParams = {
         'name': name,
         'password': password
@@ -73,11 +73,11 @@ const loginUser = async (name, password) => {
         },
         body: JSON.stringify(bodyParams)
     }
-    executeApi(loginHost, params, btn)
+    executeApi(loginHost, params, pressedButtonId)
 }
 
 const logoutUser = async () => {
-    const btn = 'logoutSubmit'
+    const pressedButtonId = 'logoutSubmit'
     const token = getToken()
     const params = {
         method: 'post',
@@ -86,11 +86,11 @@ const logoutUser = async () => {
             'Authorization': token
         }
     }
-    await executeApi(logoutHost, params, btn)
+    await executeApi(logoutHost, params, pressedButtonId)
 }
 
 const getUser = async (id) => {
-    const btn = 'usersIdGetSubmit'
+    const pressedButtonId = 'usersIdGetSubmit'
     const token = getToken()
     const url = new URL(usersHost)
     const request = new Request(url + '/' + id)
@@ -101,11 +101,11 @@ const getUser = async (id) => {
             'Authorization': token
         }
     }
-    await executeApi(request, params, btn)
+    await executeApi(request, params, pressedButtonId)
 }
 
 const getUsers = async (perPage, page, q) => {
-    const btn = 'usersGetSubmit'
+    const pressedButtonId = 'usersGetSubmit'
     const token = getToken()
     const url = new URL(usersHost)
     const queryParams = new URLSearchParams({
@@ -121,11 +121,11 @@ const getUsers = async (perPage, page, q) => {
             'Authorization': token
         }
     }
-    await executeApi(request, params, btn)
+    await executeApi(request, params, pressedButtonId)
 }
 
 const deleteUser = async () => {
-    const btn = 'usersDeleteSubmit'
+    const pressedButtonId = 'usersDeleteSubmit'
     const token = getToken()
     const params = {
         method: 'delete',
@@ -134,11 +134,11 @@ const deleteUser = async () => {
             'Authorization': token
         }
     }
-    await executeApi(usersHost, params, btn)
+    await executeApi(usersHost, params, pressedButtonId)
 }
 
 const editBioUser = async (bio) => {
-    const btn = 'usersEditSubmit'
+    const pressedButtonId = 'usersEditSubmit'
     const token = getToken()
     const bodyParam = {
         'bio': bio
@@ -151,11 +151,11 @@ const editBioUser = async (bio) => {
         },
         body: JSON.stringify(bodyParam)
     }
-    await executeApi(usersHost, params, btn)
+    await executeApi(usersHost, params, pressedButtonId)
 }
 
 const newThread = async (title) => {
-    const btn = 'threadsPostSubmit'
+    const pressedButtonId = 'threadsPostSubmit'
     const token = getToken()
     const bodyParams = {
         'title': title
@@ -168,11 +168,11 @@ const newThread = async (title) => {
         },
         body: JSON.stringify(bodyParams)
     }
-    executeApi(threadsHost, params, btn)
+    executeApi(threadsHost, params, pressedButtonId)
 }
 
 const getThreads = async (perPage, page, q) => {
-    const btn = 'threadsGetSubmit'
+    const pressedButtonId = 'threadsGetSubmit'
     const token = getToken()
     const url = new URL(threadsHost)
     const queryParams = new URLSearchParams({
@@ -188,11 +188,11 @@ const getThreads = async (perPage, page, q) => {
             'Authorization': token
         }
     }
-    await executeApi(request, params, btn)
+    await executeApi(request, params, pressedButtonId)
 }
 
 const getThread = async (id) => {
-    const btn = 'threadGetSubmit'
+    const pressedButtonId = 'threadGetSubmit'
     const token = getToken()
     const url = new URL(threadsHost)
     const request = new Request(url + '/' + id)
@@ -203,11 +203,11 @@ const getThread = async (id) => {
             'Authorization': token
         }
     }
-    await executeApi(request, params, btn)
+    await executeApi(request, params, pressedButtonId)
 }
 
 const editThread = async (id, title) => {
-    const btn = 'threadEditSubmit'
+    const pressedButtonId = 'threadEditSubmit'
     const token = getToken()
     const url = new URL(threadsHost)
     const request = new Request(url + '/' + id)
@@ -222,5 +222,5 @@ const editThread = async (id, title) => {
         },
         body: JSON.stringify(bodyParam)
     }
-    await executeApi(request, params, btn)
+    await executeApi(request, params, pressedButtonId)
 }

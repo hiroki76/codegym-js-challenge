@@ -93,22 +93,22 @@ const setErrorMessage = (message) => {
     elementErrorMessage.innerHTML = message
 }
 
-const setMessage = (data, btn) => {
-    if (btn === 'registerSubmit') {
+const setMessage = (data, pressedButtonId) => {
+    if (pressedButtonId === 'registerSubmit') {
         elementMessage.innerHTML = 'メッセージ'
         elementMessageContent.innerHTML = '新規登録に成功しました。'
         if (data["message"]) {
             elementMessageContent.innerHTML = data["message"]
         }
     }
-    if (btn === 'loginSubmit') {
+    if (pressedButtonId === 'loginSubmit') {
         elementMessage.innerHTML = 'メッセージ'
         elementMessageContent.innerHTML = 'ログインに成功しました。'
         if (data["message"]) {
             elementMessageContent.innerHTML = data["message"]
         }
     }
-    if (btn === 'logoutSubmit') {
+    if (pressedButtonId === 'logoutSubmit') {
         elementMessage.innerHTML = 'メッセージ'
         elementMessageContent.innerHTML = 'ログアウトに成功しました。'
         if (data["message"]) {
@@ -119,19 +119,19 @@ const setMessage = (data, btn) => {
             elementMessageContent.innerHTML = 'ログインしてください。'
         }
     }
-    if (btn === 'usersIdGetSubmit') {
+    if (pressedButtonId === 'usersIdGetSubmit') {
         if (!data["data"] && data["message"] === 'Unauthenticated.') {
             elementMessage.innerHTML = 'メッセージ'
             elementMessageContent.innerHTML = 'ログインしてください。'
         }
     }
-    if (btn === 'usersGetSubmit') {
+    if (pressedButtonId === 'usersGetSubmit') {
         if (!data["data"] && data["message"] === 'Unauthenticated.') {
             elementMessage.innerHTML = 'メッセージ'
             elementMessageContent.innerHTML = 'ログインしてください。'
         }
     }
-    if (btn === 'usersDeleteSubmit') {
+    if (pressedButtonId === 'usersDeleteSubmit') {
         if (data["message"]) {
             elementMessage.innerHTML = 'メッセージ'
             elementMessageContent.innerHTML = data["message"]
@@ -141,7 +141,7 @@ const setMessage = (data, btn) => {
             elementMessageContent.innerHTML = 'ログインしてください。'
         }
     }
-    if (btn === 'usersEditSubmit') {
+    if (pressedButtonId === 'usersEditSubmit') {
         elementMessage.innerHTML = 'メッセージ'
         if (!data["message"]) {
             elementMessageContent.innerHTML = 'bioを書き換えました。'
@@ -150,7 +150,7 @@ const setMessage = (data, btn) => {
             elementMessageContent.innerHTML = 'ログインしてください。'
         }
     }
-    if (btn === 'threadsPostSubmit') {
+    if (pressedButtonId === 'threadsPostSubmit') {
         elementMessage.innerHTML = 'メッセージ'
         if (!data["message"]) {
             elementMessageContent.innerHTML = 'スレッドを作成しました。'
@@ -159,7 +159,7 @@ const setMessage = (data, btn) => {
             elementMessageContent.innerHTML = 'ログインしてください。'
         }
     }
-    if (btn === 'threadGetSubmit') {
+    if (pressedButtonId === 'threadGetSubmit') {
         elementMessage.innerHTML = 'メッセージ'
         if (!data["message"]) {
             elementMessageContent.innerHTML = 'スレッドを取得しました。'
@@ -168,7 +168,7 @@ const setMessage = (data, btn) => {
             elementMessageContent.innerHTML = 'ログインしてください。'
         }
     }
-    if (btn === 'threadEditSubmit') {
+    if (pressedButtonId === 'threadEditSubmit') {
         elementMessage.innerHTML = 'メッセージ'
         if (!data["message"]) {
             elementMessageContent.innerHTML = 'スレッドを編集しました。'
@@ -177,7 +177,7 @@ const setMessage = (data, btn) => {
             elementMessageContent.innerHTML = 'ログインしてください。'
         }
     }
-    if (btn === 'threadsGetSubmit') {
+    if (pressedButtonId === 'threadsGetSubmit') {
         elementMessage.innerHTML = 'メッセージ'
         if (!data["message"]) {
             elementMessageContent.innerHTML = 'スレッド一覧を取得しました。'
